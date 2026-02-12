@@ -1,4 +1,5 @@
-$latex = 'uplatex';
+$latex = 'uplatex -interaction=nonstopmode';
 $bibtex = 'upbibtex';
-$dvipdf = 'dvipdfmx';
-$pdf_mode = 3; # dviからdvipdfmx経由でPDFを作る設定
+$dvipdf = 'dvipdfmx %O -o %D %S';
+$makeindex = 'mendex %O -o %D %S';
+$pdf_mode = 3;
