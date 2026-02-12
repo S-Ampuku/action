@@ -2,7 +2,7 @@ name: Compile LaTeX and Deploy
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # これが「手動実行ボタン」になります
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,16 +15,18 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: test.tex
-          args: "-pdfdvi -f"
+          args: "-pdfdvi"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: . # PDFが生成されたディレクトリ
+          path: . 
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+    # Pagesへのデプロイに必要な権限設定
     permissions:
       contents: read
       pages: write
