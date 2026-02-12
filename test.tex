@@ -1,0 +1,49 @@
+\RequirePackage{plautopatch}
+\documentclass[dvipdfmx]{jsarticle}
+\usepackage{amsmath,physics,ascmac,amsfonts,graphicx,bxtexlogo,bm,color,enumerate,tikz,multicol,mathrsfs,mathtools,paralist,amssymb,here,appendix,paralist,bbm,slashed}
+\usepackage[compat=1.1.0]{tikz-feynhand}
+\usetikzlibrary{positioning}
+\usetikzlibrary{intersections,calc,arrows.meta}
+\renewcommand{\inf}{\infty}
+\newcommand{\gray}[1]{\textcolor{gray}{#1}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\white}[1]{\textcolor{white}{#1}}
+% 数式番号
+\renewcommand{\theequation}{\arabic{section}.\arabic{equation}}
+\setcounter{equation}{0}
+% section番号
+\renewcommand{\thesection}{\arabic{section}}
+\setcounter{section}{0}
+% subsection番号
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\setcounter{subsection}{0}
+% dvipdfmxは日本語のときのみかく
+\usepackage[dvipdfmx]{hyperref}
+\usepackage{pxjahyper} % (u)pLaTeXのときのみかく
+\hypersetup{%
+setpagesize=false,%
+bookmarks=true,%
+bookmarksdepth=tocdepth,%
+bookmarksnumbered=true,%
+colorlinks=false,
+pdftitle={},
+pdfsubject={},
+pdfauthor={},%
+pdfkeywords={}}
+\begin{document}
+\title{}
+\author{Ampuku Shota}
+\maketitle
+% 目次の出力
+\begin{abstract}a
+\end{abstract}
+\tableofcontents
+\clearpage
+% ここから本文
+\section{a}
+a
+\appendix
+\begin{thebibliography}{}
+\item
+\end{thebibliography}
+\end{document}
