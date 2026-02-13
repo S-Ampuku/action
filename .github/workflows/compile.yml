@@ -4,6 +4,11 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,17 +22,45 @@ jobs:
           root_file: test.tex
           args: "-pdfdvi"
 
+      # ★ここで暗号化（元PDFを暗号化版に置き換え）
+      - name: Encrypt PDF (pikepdf)
+        env:
+          PDF_USER_PW: ${{ secrets.PDF_USER_PW }}
+          PDF_OWNER_PW: ${{ secrets.PDF_OWNER_PW }} # 任意。無ければ同じでOK
+        run: |
+          python -m pip install --upgrade pip
+          pip install pikepdf
+          python - << 'PY'
+          import os
+          import pikepdf
+
+          in_pdf = "test.pdf"
+          out_pdf = "test_encrypted.pdf"
+
+          user = os.environ["PDF_USER_PW"]
+          owner = os.environ.get("PDF_OWNER_PW", user)
+
+          pdf = pikepdf.open(in_pdf)
+          pdf.save(
+              out_pdf,
+              encryption=pikepdf.Encryption(
+                  user=user,
+                  owner=owner,
+                  R=6,  # 暗号化強度（環境で互換性が必要なら調整）
+              ),
+          )
+
+          # 公開されないように置き換え
+          os.remove(in_pdf)
+          os.rename(out_pdf, in_pdf)
+          print("Encrypted and replaced:", in_pdf)
+          PY
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: . 
+          path: .
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-    # Pagesへのデプロイに必要な権限設定
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
